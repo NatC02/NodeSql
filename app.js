@@ -11,6 +11,28 @@ const pool = mysql.createPool({
   debug: false,
 });
 
+function callSP(spName) {
+  let spQuery = "CALL ??";
+  let query = mysql.format(spQuery, [spName]);
+  // CALL `getAllTodo`
+  pool.query(query, (err, result) => {
+    if (err) {
+      console.error(err);
+      return;
+    }
+    // rows from SP
+    console.log(result);
+  });
+}
+
+// timeout just to avoid firing query before connection happens
+
+setTimeout(() => {
+  // call the function
+  // call sp
+  callSP("getAllTodo");
+}, 5000);
+
 //Deleting rows
 
 function deleteRow(userName) {
