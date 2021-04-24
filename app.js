@@ -11,6 +11,30 @@ const pool = mysql.createPool({
   debug: false,
 });
 
+//Deleting rows
+
+function deleteRow(userName) {
+  let deleteQuery = "DELETE from ?? where ?? = ?";
+  let query = mysql.format(deleteQuery, ["todo", "user", userName]);
+  // query = DELETE from `todo` where `user`='shahid';
+  pool.query(query, (err, response) => {
+    if (err) {
+      console.error(err);
+      return;
+    }
+    // rows deleted
+    console.log(response.affectedRows);
+  });
+}
+
+// timeout just to avoid firing query before connection happens
+
+setTimeout(() => {
+  // call the function
+  // delete row
+  deleteRow("shahid");
+}, 5000);
+
 // update rows
 
 function updateRow(data) {
